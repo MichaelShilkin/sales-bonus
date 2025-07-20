@@ -142,6 +142,8 @@ function analyzeSalesData(data, options) {
    // 8. Назначение премий на основе ранжирования
    for (let i = 0; i < sellersArray.length; i++) {
       const seller = sellersArray[i];
+      // Округляем прибыль перед вычислением бонуса
+      seller.profit = Math.round(seller.profit * 100) / 100;
       seller.bonus = calculateBonus(i, sellersArray.length, seller);
 
       seller.top_products = Object.entries(seller.products_sold)
