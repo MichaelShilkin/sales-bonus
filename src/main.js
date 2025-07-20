@@ -55,7 +55,6 @@ function analyzeSalesData(data, options) {
     || data.purchase_records.length === 0) {
       throw new Error("Ошибка: входные данные должны содержать массивы sellers, products и purchase_records");
    }
-   //* console.log("Входные данные валидны и содержат массивы с элементами");
 
    // 2. Проверка наличий опций - функций расчета
    const { calculateRevenue, calculateBonus } = options;
@@ -70,15 +69,13 @@ function analyzeSalesData(data, options) {
       acc[seller.id] = seller;
       return acc;
    }, {});
-   //*console.log(sellerById['seller_5'].position);
    
    const productBySku = data.products.reduce((acc, product) => {
       acc[product.sku] = product;
       return acc;
    }, {});
-   //*console.log(productBySku['SKU_002'].name);
-
-   // 4. Подготовка промежуточных данных для сбора статистики
+  
+// 4. Подготовка промежуточных данных для сбора статистики
    const sellerStats = data.sellers.reduce((acc, seller) => {
       acc[seller.id] = {
          seller_id: seller.id,
@@ -109,7 +106,6 @@ function analyzeSalesData(data, options) {
             sales_count: 0, // Количество проданных единиц
             products_sold: {}, // Сколько каких товаров продано
          };
-         //*console.log(`🧾 Создана карточка продавца: ${sellerStats[sellerId].name}`);
       }
       //Перебор купленных товаров в чеке
       for (const item of record.items) {
