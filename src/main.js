@@ -144,7 +144,7 @@ function analyzeSalesData(data, options) {
       const seller = sellersArray[i];
       // Округляем прибыль перед вычислением бонуса
       seller.profit = Math.round(seller.profit * 100) / 100;
-      seller.bonus = calculateBonus(i, sellersArray.length, seller);
+      seller.bonus = Math.round(calculateBonus(i, sellersArray.length, seller) * 100) / 100;
 
       seller.top_products = Object.entries(seller.products_sold)
          .map(([sku, quantity]) => ({ sku, quantity })) // из массива [[sku, quantity]] в [{sku, quantity}]
