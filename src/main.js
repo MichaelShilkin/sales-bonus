@@ -116,8 +116,8 @@ function analyzeSalesData(data, options) {
          if (!product) continue; // если товар не найден — пропускаем
 
          // Вычисляем выручку и прибыль по товару
-         const revenue = calculateRevenue(item, product);
-         const profit = revenue - product.purchase_price * item.quantity;
+         const revenue = Math.round(calculateRevenue(item, product) * 100) / 100;
+         const profit = Math.round((revenue - product.purchase_price * item.quantity) * 100) / 100;
 
          // Обновляем накопленные значения статистики продавца
          const stats = sellerStats[sellerId];
@@ -136,6 +136,7 @@ function analyzeSalesData(data, options) {
    const sellersArray = Object.values(sellerStats);
 
    // 7. Сортировка продавцов по убыванию прибыли
+   
    sellersArray.sort((a, b) => b.profit - a.profit);
 
    // 8. Назначение премий на основе ранжирования
