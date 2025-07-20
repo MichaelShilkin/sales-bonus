@@ -107,6 +107,9 @@ function analyzeSalesData(data, options) {
             products_sold: {}, // Сколько каких товаров продано
          };
       }
+      // Добавляем 1 к sales_count за каждый чек
+      sellerStats[sellerId].sales_count += 1;
+
       //Перебор купленных товаров в чеке
       for (const item of record.items) {
          const product = productBySku[item.sku];
@@ -120,7 +123,6 @@ function analyzeSalesData(data, options) {
          const stats = sellerStats[sellerId];
          stats.revenue += revenue; // Добавляем выручку
          stats.profit += profit; // Добавляем прибыль
-         stats.sales_count += item.quantity; // Добавляем кол-во проданных единиц
 
          //Учитываем, сколько штук этого товара продано
          if (!stats.products_sold[item.sku]) {
