@@ -5,7 +5,7 @@
   @returns {number} — прибыль от продажи
  */
 
-//Расчет прибыли от операции
+//* 
 function calculateSimpleRevenue(purchase, _product) {
    const { discount, sale_price, quantity } = purchase;
    const decimalDiscount = discount / 100;
@@ -112,17 +112,16 @@ function analyzeSalesData(data, options) {
       for (const item of record.items) {
          const product = productBySku[item.sku];
          if (!product) continue; // если товар не найден — пропускаем
-
+        
          // Вычисляем выручку и прибыль по товару
          const revenue = calculateRevenue(item, product);
          const profit = revenue - product.purchase_price * item.quantity;
-
          // Обновляем накопленные значения статистики продавца
          const stats = sellerStats[sellerId];
-         stats.revenue += revenue; // Добавляем выручку
-         stats.profit += profit; // Добавляем прибыль
 
-         //Учитываем, сколько штук этого товара продано
+         stats.revenue = Math.round((stats.revenue + revenue) * 100) / 100; // Округляем выручку
+         stats.profit += profit; // Добавляем прибыль
+          //Учитываем, сколько штук этого товара продано
          if (!stats.products_sold[item.sku]) {
             stats.products_sold[item.sku] = 0;
          }
@@ -152,9 +151,9 @@ function analyzeSalesData(data, options) {
    return sellersArray.map((seller) => ({
       seller_id: seller.seller_id,
       name: seller.name,
-      revenue: +seller.revenue.toFixed(2), // Округляем выручку до 2 знаков после запятой и преобразуем в число
+      revenue: +seller.revenue.toFixed(2),   // Округляем выручку до 2 знаков после запятой и преобразуем в число
       profit: +seller.profit.toFixed(2),
-      sales_count: seller.sales_count, // Количество совершённых продаж
+      sales_count: seller.sales_count,       // Количество совершённых продаж
       top_products: seller.top_products,
       bonus: +seller.bonus.toFixed(2),
    }));
